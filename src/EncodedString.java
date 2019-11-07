@@ -1,6 +1,6 @@
 
 /**
- * Class representing an encoded string
+ * Class representing an encoded token
  *
  */
 public class EncodedString {

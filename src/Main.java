@@ -41,7 +41,7 @@ public class Main {
 
 
 
-        WindowBuffer w = new WindowBuffer((short)50,(short)9,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum dictum mauris, nec pharetra arcu eleifend eu. Aenean semper molestie vehicula. Sed semper sem ligula, eu placerat magna eleifend in. Quisque at dapibus sem, vitae convallis quam. Vivamus sollicitudin lectus in libero consectetur malesuada. Nullam vel nibh et metus faucibus auctor nec nec elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla tempor mi sit amet felis dapibus suscipit. Sed ullamcorper laoreet placerat. Proin et commodo ante, a egestas felis. Donec blandit tincidunt orci, in hendrerit magna ultricies eu.");
+        WindowBuffer w = new WindowBuffer((short)9,(short)9,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum dictum mauris, nec pharetra arcu eleifend eu. Aenean semper molestie vehicula. Sed semper sem ligula, eu placerat magna eleifend in. Quisque at dapibus sem, vitae convallis quam. Vivamus sollicitudin lectus in libero consectetur malesuada. Nullam vel nibh et metus faucibus auctor nec nec elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla tempor mi sit amet felis dapibus suscipit. Sed ullamcorper laoreet placerat. Proin et commodo ante, a egestas felis. Donec blandit tincidunt orci, in hendrerit magna ultricies eu.");
         //WindowBuffer w = new WindowBuffer(9,9,"abracadabrarray");
         w.fillLookAheadBuffer();
         String result = "";
@@ -50,10 +50,8 @@ public class Main {
             EncodedString es = w.findMatch();
             if (es.getLength() > 0) {
                 es.print();
-                char offset_char = (char)(es.getOffset()+'0');
-                byte offset = (byte)offset_char;
-                char length_char = (char)(es.getLength()+'0');
-                byte length = (byte)length_char;
+                byte offset = (byte)es.getOffset();
+                byte length = (byte)es.getLength();
                 byte symbol = (byte)es.getC();
                 bos.write(offset);
                 bos.write(length);
