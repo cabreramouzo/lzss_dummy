@@ -3,7 +3,7 @@ public class LZSS {
 
   public static void enc() {
     String input = "abracadabrarray";
-    WindowBuffer windowBuffer = new WindowBuffer(8, 6, input);
+    WindowBuffer windowBuffer = new WindowBuffer((short)8, (short)6, input);
 
     while (!windowBuffer.lookAheadIsEmpty()) {
       EncodedString es = windowBuffer.findMatch();

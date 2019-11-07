@@ -5,8 +5,8 @@
  */
 public class EncodedString {
 
-    int offset; //offset to start the longest match
-    int length; //length of the longest match
+    short offset; //offset to start the longest match
+    short length; //length of the longest match
     char c; //letter
 
     public EncodedString() {
@@ -31,11 +31,11 @@ public class EncodedString {
         return c;
     }
 
-    public void setOffset(int offset) {
+    public void setOffset(short offset) {
         this.offset = offset;
     }
 
-    public void setLength(int length) {
+    public void setLength(short length) {
         this.length = length;
     }
 

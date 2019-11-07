@@ -6,11 +6,11 @@ public class WindowBuffer {
 
     char[] buffers;
     String input;
-    int searchL;
-    int searchR;
-    int lookAheadL;
-    int lookAheadR;
-    int length;
+    short searchL;
+    short searchR;
+    short lookAheadL;
+    short lookAheadR;
+    short length;
 
     public int getSearchL() {
         return searchL;
@@ -47,23 +47,23 @@ public class WindowBuffer {
         return result;
     }
 
-    public EncodedString continueMatching(int posS) {
+    public EncodedString continueMatching(short posS) {
 
-        int i = posS; //index for SB
-        int j = lookAheadL; //index for LAB
+        short i = posS; //index for SB
+        short j = lookAheadL; //index for LAB
 
         // abr'a'|abra
         if (i == searchR) {
             EncodedString result = new EncodedString();
             result.setC(buffers[lookAheadL+1]);
-            result.setLength(1);
-            result.setOffset(1);
+            result.setLength((short)1);
+            result.setOffset((short)1);
             return result;
         }
         boolean match = true;
 
         EncodedString result = new EncodedString();
-        result.setOffset(lookAheadL - posS);//independiente del length del match
+        result.setOffset((short)(lookAheadL - posS));//independiente del length del match
 
         while (i <= searchR && j <= lookAheadR && buffers[i] == buffers[j]) {
             result.incrementLengthByOne();
@@ -105,11 +105,11 @@ public class WindowBuffer {
     public EncodedString findMatch () {
 
         EncodedString matchData = new EncodedString();
-        matchData.setLength(0);
+        matchData.setLength((short)0);
         matchData.setC(getFirstCharLookAheadBuffer());
         int longestMatch = -1;
 
-        for (int i = searchR; i>=searchL; i--) {
+        for (short i = searchR; i>=searchL; i--) {
             if (buffers[i] == buffers[lookAheadL]) { //char match!
                 EncodedString es = continueMatching(i);
                 if ( es.getLength() > longestMatch ) {
@@ -148,14 +148,14 @@ public class WindowBuffer {
          */
     }
 
-    public WindowBuffer (int searchBufferSize, int lookAheadBufferSize, String inputString) {
+    public WindowBuffer (short searchBufferSize, short lookAheadBufferSize, String inputString) {
         buffers = new char[searchBufferSize+lookAheadBufferSize];
         input = inputString;
-        length = buffers.length;
+        length = (short)buffers.length;
         searchL = 0;
-        searchR = searchBufferSize-1;
+        searchR = (short)(searchBufferSize-1);
         lookAheadL = searchBufferSize;
-        lookAheadR = buffers.length-1;
+        lookAheadR = (short)(buffers.length-1);
     }
 
     public boolean lookAheadIsEmpty() {
