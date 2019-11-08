@@ -8,7 +8,7 @@ public class DecodeWindow {
         buffer = "";
     }
 
-    public void AddChar(char c) {
+    public void addChar(char c) {
         buffer += c;
     }
 
@@ -16,9 +16,14 @@ public class DecodeWindow {
         System.out.println(buffer);
     }
 
-    public void copyCharsSince(char len, char offset, char c) {
-        int positions = len-48;
-        int off = offset-48;
+    public String getBuffer() {
+        return buffer;
+    }
+
+    public void copyCharsSince(int len, int offset, char c) {
+        int positions = len;
+        int off = offset;
+        //System.out.println(buffer);
 
         int index = buffer.length()-off;
         buffer += buffer.substring(index, index+positions);

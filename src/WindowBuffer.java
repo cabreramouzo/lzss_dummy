@@ -72,7 +72,12 @@ public class WindowBuffer {
             j++;
         }
         if (j>lookAheadR) { //next symbol is in input [abc|ab]c
-
+            //we decided dont continue matching more
+            result.decrementLengthByOne();
+            j--;
+        }
+        if (j == 18) {
+            System.out.println("aqui");
         }
         result.setC(buffers[j]);
         return result;

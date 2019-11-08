@@ -46,4 +46,8 @@ public class EncodedString {
     public void incrementLengthByOne() {
         length++;
     }
+
+    public void decrementLengthByOne() {
+        length--;
+    }
 }
