@@ -16,7 +16,7 @@ public class EncodedString {
     }
 
     public void print() {
-        System.out.printf("%d%d%c", offset, length, c );
+        System.out.printf("<%d%d%c> ", offset, length, c );
     }
 
     public int getOffset() {

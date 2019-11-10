@@ -76,8 +76,8 @@ public class WindowBuffer {
             result.decrementLengthByOne();
             j--;
         }
-        if (j == 18) {
-            System.out.println("aqui");
+        if (j > 18) {
+            //System.out.println("aqui");
         }
         result.setC(buffers[j]);
         return result;
@@ -171,9 +171,9 @@ public class WindowBuffer {
         System.out.println("----");
         for (int i = lookAheadL; i<=lookAheadR; i++) {
             shiftLeftOne();
-            System.out.println(i);
+            //System.out.println(i);
         }
-        System.out.println("----");
+        //System.out.println("----");
 
         /*
         int j = 0;

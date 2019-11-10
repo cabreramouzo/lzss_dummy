@@ -23,7 +23,7 @@ public class Main {
             bis.close();
         }
 
-        System.out.println(input);
+        //System.out.println(input);
 
 
 
@@ -41,15 +41,16 @@ public class Main {
 
         while (!w.lookAheadIsEmpty()) {
             EncodedString es = w.findMatch();
+            //es.print();
             if (es.getLength() > 0) {
-                es.print();
+                //es.print();
                 byte offset = (byte)es.getOffset();
                 byte length = (byte)es.getLength();
                 byte symbol = (byte)es.getC();
                 bos.write(offset);
                 bos.write(length);
                 bos.write(symbol);
-                bos.flush();
+                //bos.flush();
                 w.shiftLeft(es.getLength()+1);
             } else {
                 //String out = "0" + w.getFirstCharLookAheadBuffer();
@@ -59,7 +60,7 @@ public class Main {
                 byte symbol = (byte)w.getFirstCharLookAheadBuffer();
                 bos.write(flag_literal);
                 bos.write(symbol);
-                bos.flush();
+                //bos.flush();
 
                 //System.out.printf("00%c", w.getFirstCharLookAheadBuffer());
                 w.shiftLeft(1);
@@ -87,7 +88,6 @@ public class Main {
                 if (byte_read == 0) { //flag literal
                     b = bis2.read(); //literal
                     dw.addChar((char)b);
-                    //pw.print((char)b);
                 }
                 else {
                     //b was offset
@@ -102,33 +102,11 @@ public class Main {
             }
         }
         finally {
-            pw.print(dw.getBuffer());
             bis2.close();
+            pw.print(dw.getBuffer());
+            pw.flush();
             pw.close();
         }
-
-
-
-
-            /*
-            DecodeWindow resultd = new DecodeWindow(10);
-            while(!encoded.isEmpty()) {
-                char offset = encoded.charAt(0);
-                encoded = shiftByOne(encoded);
-                char length = encoded.charAt(0);
-                encoded = shiftByOne(encoded);
-                char c = encoded.charAt(0);
-                encoded = shiftByOne(encoded);
-                if (offset == '0' && length == '0') {
-                    resultd.addChar(c);
-                }
-                else {
-                    resultd.copyCharsSince(length, offset, c);
-                }
-            }
-            resultd.print();
-             */
-
 
         }
 
