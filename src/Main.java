@@ -8,6 +8,27 @@ public class Main {
         return res;
     }
 
+    public static byte get_length_byte_4_low_bits (byte offset) {
+
+        byte result = (byte)(offset & 0x07);
+        return result;
+    }
+
+    public static byte get_offset_byte_4_high_bits(byte offset) {
+
+        byte result = (byte)(offset << 4);
+        return result;
+    }
+
+    public static byte codify_offset_length_one_byte(byte offset, byte lenght) {
+        byte o = get_offset_byte_4_high_bits(offset);
+        byte l = get_length_byte_4_low_bits(lenght);
+
+        byte result = (byte)0xFF;
+
+        return result;
+    }
+
     public static void main(String[] args) throws IOException {
 
         String input = "";
@@ -36,7 +57,7 @@ public class Main {
 
 
 
-        WindowBuffer w = new WindowBuffer((short)9,(short)9,input);
+        WindowBuffer w = new WindowBuffer((short)12,(short)12,input);
         w.fillLookAheadBuffer();
 
         while (!w.lookAheadIsEmpty()) {
@@ -47,6 +68,7 @@ public class Main {
                 byte offset = (byte)es.getOffset();
                 byte length = (byte)es.getLength();
                 byte symbol = (byte)es.getC();
+                //off_len = codify_offset_length_one_byte(offset, length);
                 bos.write(offset);
                 bos.write(length);
                 bos.write(symbol);
@@ -58,7 +80,7 @@ public class Main {
                 byte flag_literal = (byte)0;
                 //only ASCII
                 byte symbol = (byte)w.getFirstCharLookAheadBuffer();
-                bos.write(flag_literal);
+                //bos.write(flag_literal);
                 bos.write(symbol);
                 //bos.flush();
 
@@ -78,16 +100,19 @@ public class Main {
         PrintWriter pw = new PrintWriter(fw);
 
         //decode
-        DecodeWindow dw = new DecodeWindow(9);
+        DecodeWindow dw = new DecodeWindow(12);
         BufferedInputStream bis2 = null;
         try {
             bis2 = new BufferedInputStream(new FileInputStream("comprimido.txt"));
             int b;
             while ( (b = bis2.read() ) != -1) {
                 byte byte_read = (byte)b;
-                if (byte_read == 0) { //flag literal
-                    b = bis2.read(); //literal
-                    dw.addChar((char)b);
+                if (byte_read > 12) { //flag literal
+                    //b = bis2.read(); //literal
+                    //dw.addChar((char)b);
+
+                    //no flag byte, directly char
+                    dw.addChar((char)byte_read);
                 }
                 else {
                     //b was offset
