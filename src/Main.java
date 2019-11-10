@@ -57,13 +57,13 @@ public class Main {
 
 
 
-        WindowBuffer w = new WindowBuffer((short)12,(short)12,input);
+        WindowBuffer w = new WindowBuffer((short)8,(short)8,input);
         w.fillLookAheadBuffer();
 
         while (!w.lookAheadIsEmpty()) {
             EncodedString es = w.findMatch();
             //es.print();
-            if (es.getLength() > 0) {
+            if (es.getLength() > 2) {
                 //es.print();
                 byte offset = (byte)es.getOffset();
                 byte length = (byte)es.getLength();
@@ -100,14 +100,14 @@ public class Main {
         PrintWriter pw = new PrintWriter(fw);
 
         //decode
-        DecodeWindow dw = new DecodeWindow(12);
+        DecodeWindow dw = new DecodeWindow(8);
         BufferedInputStream bis2 = null;
         try {
             bis2 = new BufferedInputStream(new FileInputStream("comprimido.txt"));
             int b;
             while ( (b = bis2.read() ) != -1) {
                 byte byte_read = (byte)b;
-                if (byte_read > 12) { //flag literal
+                if (byte_read > 8) { //flag literal
                     //b = bis2.read(); //literal
                     //dw.addChar((char)b);
 
