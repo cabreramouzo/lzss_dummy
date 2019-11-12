@@ -20,17 +20,25 @@ public class Main {
         return result;
     }
 
-    public static byte codify_offset_length_one_byte(byte offset, byte lenght) {
+    public static byte codify_offset_length_one_byte(byte offset, byte length) {
         byte o = get_offset_byte_4_high_bits(offset);
-        byte l = get_length_byte_4_low_bits(lenght);
-
-        byte result = (byte)0xFF;
+        byte l = get_length_byte_4_low_bits(length);
+        byte result = (byte)(o | l);
 
         return result;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static int[] decodify_offset_length_one_byte(byte off_len) {
+        int offset = off_len & 0x0F;
+        int length = off_len & 0xF0;
+        System.out.println(offset);
+        System.out.println(length);
+        return new int[] {offset, length};
+    }
 
+
+
+    public static void main(String[] args) throws IOException {
         String input = "";
         BufferedInputStream bis = null;
         try {
@@ -46,15 +54,12 @@ public class Main {
 
         //System.out.println(input);
 
-
-
         File f;
         f = new File("comprimido.txt");
         FileOutputStream fos;
         fos = new FileOutputStream(f);
         OutputStream bos;
         bos = new BufferedOutputStream(fos);
-
 
 
         WindowBuffer w = new WindowBuffer((short)8,(short)8,input);
@@ -64,13 +69,14 @@ public class Main {
             EncodedString es = w.findMatch();
             //es.print();
             if (es.getLength() > 2) {
-                //es.print();
+                es.print();
                 byte offset = (byte)es.getOffset();
                 byte length = (byte)es.getLength();
                 byte symbol = (byte)es.getC();
-                //off_len = codify_offset_length_one_byte(offset, length);
-                bos.write(offset);
-                bos.write(length);
+                byte off_len = codify_offset_length_one_byte(offset, length);
+                //bos.write(offset);
+                //bos.write(length);
+                bos.write(off_len);
                 bos.write(symbol);
                 //bos.flush();
                 w.shiftLeft(es.getLength()+1);
@@ -115,13 +121,13 @@ public class Main {
                     dw.addChar((char)byte_read);
                 }
                 else {
-                    //b was offset
-                    int len = bis2.read(); //length
+                    //b was offset_length
+                    //int len = bis2.read(); //length
+                    int[] off_len = decodify_offset_length_one_byte((byte)b);
+                    int len = off_len[1];
+                    int off = off_len[0];
                     int symbol = bis2.read(); //last symbol
-                    dw.copyCharsSince(len,(int)b,(char)symbol);
-
-
-
+                    dw.copyCharsSince(len,off,(char)symbol);
 
                 }
             }
@@ -137,7 +143,4 @@ public class Main {
 
 
 
-
-
     }
-
