@@ -76,9 +76,6 @@ public class WindowBuffer {
             result.decrementLengthByOne();
             j--;
         }
-        if (j > 18) {
-            //System.out.println("aqui");
-        }
         result.setC(buffers[j]);
         return result;
 
